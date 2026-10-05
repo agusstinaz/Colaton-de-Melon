@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Correo enviado";
+}
+
+<section class="account-page">
+
+    <div class="account-container">
+
+        <div class="account-header">
+
+            <div class="account-icon">
+                🩷
+            </div>
+
+            <h1>Revisá tu correo</h1>
+
+            <p>
+                Si existe una cuenta asociada a ese correo,
+                te enviamos las instrucciones para restablecer
+                tu contraseña.
+            </p>
+
+        </div>
+
+        <div class="account-form"
+             style="text-align: center;">
+
+            <p style="margin-bottom: 25px;">
+                Revisá tu bandeja de entrada y también la carpeta
+                de correo no deseado.
+            </p>
+
+            <a asp-controller="Cuenta"
+               asp-action="Login"
+               class="account-btn"
+               style="display: block; text-decoration: none;">
+                VOLVER A INICIAR SESIÓN
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

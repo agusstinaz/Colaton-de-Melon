@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Acceso denegado";
+}
+
+<section class="account-page">
+
+    <div class="account-container access-denied-container">
+
+        <div class="account-header">
+
+            <div class="account-icon">
+                🌷
+            </div>
+
+            <h1>Ups...</h1>
+
+            <p>
+                No tenés permisos para acceder a esta sección
+                de Colatón de Melón.
+            </p>
+
+        </div>
+
+        <div class="access-denied-message">
+
+            <p>
+                Esta sección está disponible únicamente
+                para administradores.
+            </p>
+
+        </div>
+
+        <div class="access-denied-actions">
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="account-btn account-btn-link">
+                VOLVER AL INICIO
+            </a>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <form asp-controller="Cuenta"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="access-denied-secondary">
+                        CERRAR SESIÓN
+                    </button>
+
+                </form>
+            }
+            else
+            {
+                <a asp-controller="Cuenta"
+                   asp-action="Login"
+                   class="account-link">
+                    INICIAR SESIÓN
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+</section>

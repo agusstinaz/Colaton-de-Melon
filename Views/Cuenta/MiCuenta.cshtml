@@ -1,0 +1,291 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityUser
+
+@{
+    ViewData["Title"] = "Mi cuenta";
+
+    var pedidos = ViewBag.Pedidos
+        as List<ColatonDeMelon.Models.Pedido>;
+}
+
+<section class="account-page">
+
+    <div class="account-container">
+
+        <div class="account-header">
+
+            <div class="account-icon">
+                💕
+            </div>
+
+            <h1>Mi cuenta</h1>
+
+            <p>
+                ¡Bienvenido/a a Colatón de Melón!
+            </p>
+
+        </div>
+
+
+        <div class="account-information">
+
+            <div class="account-info-item">
+
+                <span class="account-info-label">
+                    Correo electrónico
+                </span>
+
+                <strong>
+                    @Model.Email
+                </strong>
+
+            </div>
+
+
+            <div class="account-info-item">
+
+                <span class="account-info-label">
+                    Tipo de cuenta
+                </span>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <strong>
+                        Administrador 👑
+                    </strong>
+                }
+                else
+                {
+                    <strong>
+                        Cliente 💕
+                    </strong>
+                }
+
+            </div>
+
+        </div>
+
+        <div class="account-security">
+
+            <div class="account-security-content">
+
+                <div>
+                    <span class="account-info-label">
+                        Seguridad
+                    </span>
+
+                    <strong>
+                        Contraseña
+                    </strong>
+
+                    <p>
+                        Podés cambiar tu contraseña cuando quieras.
+                    </p>
+                </div>
+
+                <a asp-controller="Cuenta"
+                   asp-action="CambiarPassword"
+                   class="account-btn account-btn-link">
+
+                    🔐 CAMBIAR CONTRASEÑA
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-controller="AdminProductos"
+               asp-action="Index"
+               class="account-btn account-btn-link">
+
+                ⚙️ PANEL DE ADMINISTRACIÓN
+
+            </a>
+        }
+
+
+        <!-- HISTORIAL DE PEDIDOS -->
+
+        <div class="account-orders">
+
+            <div class="account-orders-header">
+
+                <h2>Mis pedidos 🛍️</h2>
+
+                <p>
+                    Acá podés consultar tus compras realizadas.
+                </p>
+
+            </div>
+
+
+            @if (pedidos == null || pedidos.Count == 0)
+            {
+                <div class="account-no-orders">
+
+                    <div class="account-no-orders-icon">
+                        🧸
+                    </div>
+
+                    <h3>Todavía no tenés pedidos</h3>
+
+                    <p>
+                        Cuando realices una compra,
+                        aparecerá acá.
+                    </p>
+
+                    <a asp-controller="Productos"
+                       asp-action="Index"
+                       class="account-btn account-btn-link">
+
+                        🛍️ VER PRODUCTOS
+
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <div class="account-orders-list">
+
+                    @foreach (var pedido in pedidos)
+                    {
+                        <article class="account-order-card">
+
+                            <div class="account-order-top">
+
+                                <div>
+
+                                    <span class="account-order-label">
+                                        Pedido
+                                    </span>
+
+                                    <strong>
+                                        #@pedido.IdPedido
+                                    </strong>
+
+                                </div>
+
+
+                                <span class="account-order-status
+                                            @(pedido.Estado == "Pendiente" ? "status-pendiente" :
+                                                                            pedido.Estado == "Pago confirmado" ? "status-pago" :
+                                                                            pedido.Estado == "Preparando" ? "status-preparando" :
+                                                                            pedido.Estado == "Enviado" ? "status-enviado" :
+                                                                            pedido.Estado == "Entregado" ? "status-entregado" :
+                                                                            pedido.Estado == "Cancelado" ? "status-cancelado" :
+                                                                            "")">
+
+                            @pedido.Estado
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="account-order-info">
+
+                                <div>
+
+                                    <span>Fecha</span>
+
+                                    <strong>
+                                        @pedido.FechaPedido.ToString(
+                                                                "dd/MM/yyyy HH:mm")
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>Productos</span>
+
+                            <strong>
+                                @pedido.Detalles.Sum(
+                                                                d => d.Cantidad)
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>Total</span>
+
+                            <strong>
+                                $@pedido.Total.ToString("N0")
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="account-order-products">
+
+                        @foreach (var detalle in pedido.Detalles)
+                                {
+                                    <div class="account-order-product">
+
+                                        <span>
+                                            @detalle.NombreProducto
+                                        </span>
+
+                                        <span>
+                                            @detalle.Cantidad x
+                                            $@detalle.Precio.ToString("N0")
+                                        </span>
+
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="account-order-actions">
+
+                                <a asp-controller="Cuenta"
+                                   asp-action="DetallePedido"
+                                   asp-route-id="@pedido.IdPedido"
+                                   class="account-order-detail-button">
+
+                                    VER DETALLE →
+
+                                </a>
+
+                            </div>
+
+                        </article>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+
+        <div class="account-footer">
+
+            <form asp-controller="Cuenta"
+                  asp-action="Logout"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit"
+                        class="access-denied-secondary">
+
+                    🚪 CERRAR SESIÓN
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>

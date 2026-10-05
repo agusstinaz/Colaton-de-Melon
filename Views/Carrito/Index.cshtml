@@ -1,0 +1,334 @@
+﻿@model List<ColatonDeMelon.Models.CarritoItem>
+
+@{
+    ViewData["Title"] = "Mi carrito";
+
+decimal total = Model.Sum(item => item.Subtotal);
+
+
+}
+
+<section class="cart-page">
+
+    <div class="cart-container">
+
+        <!-- ENCABEZADO -->
+
+        <div class="cart-header">
+
+            <span>
+                COLATÓN DE MELÓN
+            </span>
+
+            <h1>
+                Tu carrito
+            </h1>
+
+            <p>
+                Revisá tus productos antes de continuar con tu compra.
+            </p>
+
+        </div>
+
+
+        <!-- MENSAJE -->
+        @if (TempData["MensajeCarrito"] != null)
+        {
+            <div class="cart-message">
+                @TempData["MensajeCarrito"]
+            </div>
+        }
+
+
+        @if (Model == null || Model.Count == 0)
+        {
+            <!-- CARRITO VACÍO -->
+
+            <div class="empty-cart">
+
+                <span class="empty-cart-label">
+                    TU CARRITO
+                </span>
+
+                <h2>
+                    Tu carrito está vacío
+                </h2>
+
+                <p>
+                    Todavía no agregaste ningún producto.
+                </p>
+
+                <a asp-controller="Productos"
+                   asp-action="Index"
+                   class="account-btn account-btn-link">
+
+                    VER PRODUCTOS
+
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <!-- CARRITO CON PRODUCTOS -->
+
+            <div class="cart-content">
+
+                <!-- PRODUCTOS -->
+
+                <div class="cart-products">
+
+                    @foreach (var item in Model)
+                    {
+                        <article class="cart-item">
+
+                            <!-- IMAGEN -->
+
+                            <a asp-controller="Productos"
+                               asp-action="Details"
+                               asp-route-id="@item.IdProducto"
+                               class="cart-item-image">
+
+                                @if (!string.IsNullOrWhiteSpace(item.Imagen))
+                                {
+                                    <img src="~/images/productos/@item.Imagen"
+                                         alt="@item.Nombre" />
+                                }
+                                else
+                                {
+                                    <div class="cart-no-image">
+                                        SIN IMAGEN
+                                    </div>
+                                }
+
+                            </a>
+
+
+                            <!-- INFORMACIÓN -->
+
+                            <div class="cart-item-info">
+
+                                <span>
+                                    PRODUCTO
+                                </span>
+
+                                <h3>
+                                    @item.Nombre
+                                </h3>
+
+                                <p class="cart-item-price">
+                                    $@item.Precio.ToString("N0")
+                                </p>
+
+                            </div>
+
+
+                            <!-- CANTIDAD -->
+
+                            <div class="cart-item-quantity">
+
+                                <span>
+                                    CANTIDAD
+                                </span>
+
+                                <div class="quantity-controls">
+
+                                    <form asp-controller="Carrito"
+                                          asp-action="Disminuir"
+                                          method="post">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@item.IdProducto" />
+
+                                        <button type="submit"
+                                                class="quantity-button"
+                                                aria-label="Disminuir cantidad">
+
+                                            −
+
+                                        </button>
+
+                                    </form>
+
+
+                                    <strong>
+                                        @item.Cantidad
+                                    </strong>
+
+
+                                    <form asp-controller="Carrito"
+                                          asp-action="Aumentar"
+                                          method="post">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@item.IdProducto" />
+
+                                        <button type="submit"
+                                                class="quantity-button"
+                                                aria-label="Aumentar cantidad">
+
+                                            +
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- SUBTOTAL -->
+
+                            <div class="cart-item-subtotal">
+
+                                <span>
+                                    SUBTOTAL
+                                </span>
+
+                                <strong>
+                                    $@item.Subtotal.ToString("N0")
+                                </strong>
+
+                            </div>
+
+
+                            <!-- ELIMINAR -->
+
+                            <div class="cart-item-remove">
+
+                                <form asp-controller="Carrito"
+                                      asp-action="Eliminar"
+                                      method="post">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@item.IdProducto" />
+
+                                    <button type="submit"
+                                            class="remove-button"
+                                            aria-label="Eliminar producto">
+
+                                        ELIMINAR
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </article>
+                    }
+
+                </div>
+
+
+                <!-- RESUMEN -->
+
+                <aside class="cart-summary">
+
+                    <span class="cart-summary-label">
+                        TU PEDIDO
+                    </span>
+
+                    <h2>
+                        Resumen de compra
+                    </h2>
+
+
+                    <div class="cart-summary-row">
+
+                        <span>
+                            Productos
+                        </span>
+
+                        <strong>
+                            @Model.Sum(x => x.Cantidad)
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cart-summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <strong>
+                            $@total.ToString("N0")
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cart-summary-total">
+
+                        <span>
+                            TOTAL
+                        </span>
+
+                        <strong>
+                            $@total.ToString("N0")
+                        </strong>
+
+                    </div>
+
+
+                    <!-- FINALIZAR -->
+
+                    <a asp-controller="Checkout"
+                       asp-action="Index"
+                       class="checkout-button">
+
+                        FINALIZAR COMPRA
+
+                    </a>
+
+
+                    <!-- CONTINUAR -->
+
+                    <a asp-controller="Productos"
+                       asp-action="Index"
+                       class="continue-shopping">
+
+                        ← Seguir comprando
+
+                    </a>
+
+
+                    <!-- VACIAR -->
+
+                    <form asp-controller="Carrito"
+                          asp-action="Vaciar"
+                          method="post"
+                          class="empty-cart-form">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="empty-cart-button">
+
+                            Vaciar carrito
+
+                        </button>
+
+                    </form>
+
+                </aside>
+
+            </div>
+        }
+
+    </div>
+   
+
+</section>

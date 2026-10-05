@@ -1,0 +1,219 @@
+﻿@model IEnumerable<ColatonDeMelon.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Pedidos";
+}
+
+<section class="admin-orders-page">
+
+    <div class="admin-orders-container">
+
+        <div class="admin-orders-header">
+
+            <div>
+                <h1>Pedidos 🧾</h1>
+
+                <p>
+                    Gestioná los pedidos realizados en Colatón de Melón.
+                </p>
+            </div>
+
+            <a asp-controller="AdminProductos"
+               asp-action="Index"
+               class="admin-back-button">
+                ← PRODUCTOS
+            </a>
+
+        </div>
+
+        <div class="admin-order-summary">
+
+            <div class="admin-summary-card status-pendiente">
+                <span class="admin-summary-icon">🕐</span>
+                <div>
+                    <strong>@ViewBag.Pendientes</strong>
+                    <span>Pendientes</span>
+                </div>
+            </div>
+
+            <div class="admin-summary-card status-pago">
+                <span class="admin-summary-icon">💳</span>
+                <div>
+                    <strong>@ViewBag.PagosConfirmados</strong>
+                    <span>Pago confirmado</span>
+                </div>
+            </div>
+
+            <div class="admin-summary-card status-preparando">
+                <span class="admin-summary-icon">📦</span>
+                <div>
+                    <strong>@ViewBag.Preparando</strong>
+                    <span>Preparando</span>
+                </div>
+            </div>
+
+            <div class="admin-summary-card status-enviado">
+                <span class="admin-summary-icon">🚚</span>
+                <div>
+                    <strong>@ViewBag.Enviados</strong>
+                    <span>Enviados</span>
+                </div>
+            </div>
+
+            <div class="admin-summary-card status-entregado">
+                <span class="admin-summary-icon">✅</span>
+                <div>
+                    <strong>@ViewBag.Entregados</strong>
+                    <span>Entregados</span>
+                </div>
+            </div>
+
+            <div class="admin-summary-card status-cancelado">
+                <span class="admin-summary-icon">❌</span>
+                <div>
+                    <strong>@ViewBag.Cancelados</strong>
+                    <span>Cancelados</span>
+                </div>
+            </div>
+
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="admin-empty-orders">
+
+                <div class="admin-empty-icon">
+                    🧸
+                </div>
+
+                <h2>Todavía no hay pedidos</h2>
+
+                <p>
+                    Cuando un cliente realice una compra,
+                    aparecerá acá.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="admin-orders-list">
+
+                @foreach (var pedido in Model)
+                {
+                    <article class="admin-order-card">
+
+                        <div class="admin-order-header">
+
+                            <div>
+                                <span class="admin-order-label">
+                                    Pedido
+                                </span>
+
+                                <h2>
+                                    #@pedido.IdPedido
+                                </h2>
+                            </div>
+
+                            <span class="admin-order-status
+            @(pedido.Estado == "Pendiente" ? "status-pendiente" :
+                                        pedido.Estado == "Pago confirmado" ? "status-pago" :
+                                        pedido.Estado == "Preparando" ? "status-preparando" :
+                                        pedido.Estado == "Enviado" ? "status-enviado" :
+                                        pedido.Estado == "Entregado" ? "status-entregado" :
+                                        pedido.Estado == "Cancelado" ? "status-cancelado" :
+                                        "")">
+                        @pedido.Estado
+                    </span>
+
+                        </div>
+
+                        <div class="admin-order-info">
+
+                            <div>
+                                <strong>Cliente</strong>
+                                <span>
+                                    @pedido.Nombre @pedido.Apellido
+                                </span>
+                            </div>
+
+                            <div>
+                                <strong>Teléfono</strong>
+                                <span>
+                                    @pedido.Telefono
+                                </span>
+                            </div>
+
+                            <div>
+                                <strong>Fecha</strong>
+                                <span>
+                                    @pedido.FechaPedido.ToString("dd/MM/yyyy HH:mm")
+                                </span>
+                            </div>
+
+                            <div>
+                                <strong>Dirección</strong>
+                                <span>
+                                    @pedido.Direccion,
+                                    @pedido.Localidad
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="admin-order-products">
+
+                            <h3>Productos</h3>
+
+                            @foreach (var detalle in pedido.Detalles)
+                            {
+                                <div class="admin-order-product">
+
+                                    <div>
+                                        <strong>
+                                            @detalle.NombreProducto
+                                        </strong>
+
+                                        <span>
+                                            Cantidad:
+                                            @detalle.Cantidad
+                                        </span>
+                                    </div>
+
+                                    <strong>
+                                        $@detalle.Subtotal.ToString("N0")
+                                    </strong>
+
+                                </div>
+                            }
+
+                        </div>
+
+                        <div class="admin-order-footer">
+
+                            <div>
+                                <span>Total</span>
+
+                                <strong>
+                                    $@pedido.Total.ToString("N0")
+                                </strong>
+                            </div>
+
+                            <a asp-controller="AdminPedidos"
+                               asp-action="Details"
+                               asp-route-id="@pedido.IdPedido"
+                               class="admin-order-details-button">
+                                VER PEDIDO
+                            </a>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+
+    </div>
+
+</section>

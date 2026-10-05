@@ -1,0 +1,263 @@
+﻿@model ColatonDeMelon.Models.Producto
+
+@{
+    ViewData["Title"] = "Editar producto";
+}
+
+<section class="admin-product-form-page">
+
+   
+    <div class="admin-product-form-header">
+
+        <span>ADMINISTRACIÓN</span>
+
+        <h1>Editar producto</h1>
+
+        <p>
+            Modificá la información del producto.
+        </p>
+
+    </div>
+
+
+    <form asp-action="Editar"
+          method="post"
+          enctype="multipart/form-data"
+          class="admin-product-form">
+
+        @Html.AntiForgeryToken()
+
+        <input type="hidden"
+               asp-for="IdProducto" />
+
+        <input type="hidden"
+               asp-for="IdCategoria" />
+
+        <input type="hidden"
+               asp-for="Imagen" />
+
+
+        <div asp-validation-summary="ModelOnly"
+             class="validation-summary">
+        </div>
+
+
+        <!-- NOMBRE -->
+
+        <div class="admin-form-group">
+
+            <label asp-for="Nombre">
+                Nombre del producto
+            </label>
+
+            <input asp-for="Nombre"
+                   class="admin-form-input" />
+
+            <span asp-validation-for="Nombre"
+                  class="validation-message">
+            </span>
+
+        </div>
+
+
+        <!-- DESCRIPCIÓN -->
+
+        <div class="admin-form-group">
+
+            <label asp-for="Descripcion">
+                Descripción
+            </label>
+
+            <textarea asp-for="Descripcion"
+                      class="admin-form-input"
+                      rows="4"></textarea>
+
+            <span asp-validation-for="Descripcion"
+                  class="validation-message">
+            </span>
+
+        </div>
+
+
+        <!-- PRECIO -->
+
+        <div class="admin-form-group">
+
+            <label asp-for="Precio">
+                Precio
+            </label>
+
+            <input asp-for="Precio"
+                   class="admin-form-input"
+                   type="number"
+                   step="0.01"
+                   min="0" />
+
+            <span asp-validation-for="Precio"
+                  class="validation-message">
+            </span>
+
+        </div>
+
+
+        <!-- STOCK -->
+
+        <div class="admin-form-group">
+
+            <label asp-for="Stock">
+                Stock
+            </label>
+
+            <input asp-for="Stock"
+                   class="admin-form-input"
+                   type="number"
+                   min="0" />
+
+            <span asp-validation-for="Stock"
+                  class="validation-message">
+            </span>
+
+        </div>
+
+
+        <!-- IMAGEN ACTUAL -->
+
+        <div class="admin-form-group">
+
+            <label>
+                Imagen actual
+            </label>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Imagen))
+            {
+                <div class="admin-current-image">
+
+                    <img src="~/images/productos/@Model.Imagen"
+                         alt="@Model.Nombre" />
+
+                </div>
+            }
+            else
+            {
+                <p class="admin-category-empty">
+                    Este producto no tiene imagen.
+                </p>
+            }
+
+        </div>
+
+
+        <!-- NUEVA IMAGEN -->
+
+        <div class="admin-form-group">
+
+            <label>
+                Cambiar imagen
+            </label>
+
+            <input type="file"
+                   name="imagenArchivo"
+                   class="admin-form-input"
+                   accept="image/*" />
+
+            <small>
+                Si no seleccionás una nueva imagen,
+                se conservará la imagen actual.
+            </small>
+
+        </div>
+
+
+        <!-- EDAD -->
+
+        <div class="admin-form-group">
+
+            <label asp-for="IdEdad">
+                Edad
+            </label>
+
+            <select asp-for="IdEdad"
+                    class="admin-form-input">
+
+                <option value="">
+                    Seleccionar edad
+                </option>
+
+                @foreach (var edad in ViewBag.Edades)
+                {
+                    <option value="@edad.IdEdad">
+                        @edad.Nombre
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="IdEdad"
+                  class="validation-message">
+            </span>
+
+        </div>
+
+
+        <!-- TIPO DE ROPA -->
+
+        <div class="admin-form-group">
+
+            <label asp-for="IdTipoPrenda">
+                Tipo de ropa
+            </label>
+
+            <select asp-for="IdTipoPrenda"
+                    class="admin-form-input">
+
+                <option value="">
+                    Seleccionar tipo de ropa
+                </option>
+
+                @foreach (var tipo in ViewBag.TiposPrenda)
+                {
+                    <option value="@tipo.IdTipoPrenda">
+                        @tipo.Nombre
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="IdTipoPrenda"
+                  class="validation-message">
+            </span>
+
+        </div>
+
+
+        <!-- BOTONES -->
+
+        <div class="admin-form-actions">
+
+            <button type="submit"
+                    class="admin-form-button primary">
+                GUARDAR CAMBIOS
+            </button>
+
+            <a asp-action="Index"
+               class="admin-form-button secondary">
+                CANCELAR
+            </a>
+
+        </div>
+
+    </form>
+    
+
+</section>
+
+@section Scripts {
+
+    ```
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+  
+
+}

@@ -1,0 +1,263 @@
+﻿@model IEnumerable<ColatonDeMelon.Models.Producto>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<section class="catalog-page">
+
+    ```
+    <div class="catalog-header">
+
+        <span class="catalog-eyebrow">
+            COLATÓN DE MELÓN
+        </span>
+
+        <h1>
+            Nuestra colección
+        </h1>
+
+        <p>
+            Descubrí prendas pensadas para acompañar cada etapa.
+        </p>
+
+    </div>
+
+
+    <!-- BUSCADOR -->
+
+    <form asp-controller="Productos"
+          asp-action="Index"
+          method="get"
+          class="catalog-search">
+
+        @if (ViewBag.EdadSeleccionada != null)
+        {
+            <input type="hidden"
+                   name="edad"
+                   value="@ViewBag.EdadSeleccionada" />
+        }
+
+        @if (ViewBag.TipoSeleccionado != null)
+        {
+            <input type="hidden"
+                   name="tipo"
+                   value="@ViewBag.TipoSeleccionado" />
+        }
+
+        <div class="catalog-search-input">
+
+            <input type="text"
+                   name="busqueda"
+                   value="@ViewBag.Busqueda"
+                   placeholder="¿Qué estás buscando?"
+                   aria-label="Buscar productos" />
+
+            <button type="submit">
+                BUSCAR
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <!-- FILTROS -->
+
+    <div class="catalog-filters">
+
+        <div class="catalog-filter-group">
+
+            <h2>
+                Comprar por edad
+            </h2>
+
+            <div class="catalog-filter-links">
+
+                <a asp-controller="Productos"
+                   asp-action="Index"
+                   asp-route-tipo="@ViewBag.TipoSeleccionado"
+                   class="catalog-filter-link
+               @(ViewBag.EdadSeleccionada == null ? "active" : "")">
+
+                    TODAS
+
+                </a>
+
+                @foreach (var edad in ViewBag.Edades)
+                {
+                    <a asp-controller="Productos"
+                       asp-action="Index"
+                       asp-route-edad="@edad.IdEdad"
+                       asp-route-tipo="@ViewBag.TipoSeleccionado"
+                       class="catalog-filter-link
+                       @(ViewBag.EdadSeleccionada == edad.IdEdad ? "active" : "")">
+
+                        @edad.Nombre
+
+                    </a>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="catalog-filter-group">
+
+            <h2>
+                Comprar por tipo de ropa
+            </h2>
+
+            <div class="catalog-filter-links">
+
+                <a asp-controller="Productos"
+                   asp-action="Index"
+                   asp-route-edad="@ViewBag.EdadSeleccionada"
+                   class="catalog-filter-link
+               @(ViewBag.TipoSeleccionado == null ? "active" : "")">
+
+                    TODAS
+
+                </a>
+
+                @foreach (var tipo in ViewBag.TiposPrenda)
+                {
+                    <a asp-controller="Productos"
+                       asp-action="Index"
+                       asp-route-edad="@ViewBag.EdadSeleccionada"
+                       asp-route-tipo="@tipo.IdTipoPrenda"
+                       class="catalog-filter-link
+                       @(ViewBag.TipoSeleccionado == tipo.IdTipoPrenda ? "active" : "")">
+
+                        @tipo.Nombre
+
+                    </a>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULTADOS -->
+    @if (ViewBag.EdadSeleccionada != null ||
+        ViewBag.TipoSeleccionado != null ||
+        !string.IsNullOrWhiteSpace(ViewBag.Busqueda))
+    {
+        <div class="catalog-results">
+
+            <span>
+                @Model.Count() producto(s) encontrado(s)
+            </span>
+
+        </div>
+    }
+
+
+    <!-- PRODUCTOS -->
+
+    <div class="catalog-product-grid">
+
+        @foreach (var producto in Model)
+        {
+            <article class="catalog-product-card">
+
+                <a asp-controller="Productos"
+                   asp-action="Details"
+                   asp-route-id="@producto.IdProducto"
+                   class="catalog-product-image">
+
+                    @if (!string.IsNullOrWhiteSpace(producto.Imagen))
+                    {
+                        <img src="~/images/productos/@producto.Imagen"
+                             alt="@producto.Nombre" />
+                    }
+                    else
+                    {
+                        <div class="catalog-product-no-image">
+                            SIN IMAGEN
+                        </div>
+                    }
+
+                </a>
+
+
+                <div class="catalog-product-info">
+
+                    @if (producto.TipoPrenda != null)
+                    {
+                        <span class="catalog-product-type">
+                            @producto.TipoPrenda.Nombre
+                        </span>
+                    }
+
+                    <h3>
+                        @producto.Nombre
+                    </h3>
+
+                    <p class="catalog-product-price">
+                        $@producto.Precio.ToString("N0")
+                    </p>
+
+                    @if (producto.Stock > 0)
+                    {
+                        <span class="catalog-product-stock available">
+                            Disponible
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="catalog-product-stock unavailable">
+                            Sin stock
+                        </span>
+                    }
+
+                    <a asp-controller="Productos"
+                       asp-action="Details"
+                       asp-route-id="@producto.IdProducto"
+                       class="catalog-product-button">
+
+                        VER PRODUCTO
+
+                    </a>
+
+                </div>
+
+            </article>
+        }
+
+    </div>
+
+
+    <!-- SIN RESULTADOS -->
+    @if (!Model.Any())
+    {
+        <div class="catalog-empty">
+
+            <span>
+                COLATÓN DE MELÓN
+            </span>
+
+            <h2>
+                No encontramos productos.
+            </h2>
+
+            <p>
+                Probá cambiando los filtros o realizando otra búsqueda.
+            </p>
+
+            <a asp-controller="Productos"
+               asp-action="Index">
+
+                VER TODOS LOS PRODUCTOS
+
+            </a>
+
+        </div>
+    }
+   
+
+</section>

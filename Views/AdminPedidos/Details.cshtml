@@ -1,0 +1,217 @@
+﻿@model ColatonDeMelon.Models.Pedido
+
+@{
+    ViewData["Title"] = $"Pedido #{Model.IdPedido}";
+}
+
+<section class="admin-order-detail-page">
+
+    <div class="admin-order-detail-container">
+
+        <div class="admin-order-detail-top">
+
+            <div>
+                <span class="admin-order-label">
+                    Número de pedido
+                </span>
+
+                <h1>
+                    #@Model.IdPedido
+                </h1>
+            </div>
+
+            <span class="admin-order-status">
+                @Model.Estado
+            </span>
+
+        </div>
+
+        <div class="admin-detail-section">
+
+            <h2>Datos del cliente</h2>
+
+            <div class="admin-detail-grid">
+
+                <div>
+                    <strong>Nombre</strong>
+                    <span>
+                        @Model.Nombre @Model.Apellido
+                    </span>
+                </div>
+
+                <div>
+                    <strong>Teléfono</strong>
+                    <span>
+                        @Model.Telefono
+                    </span>
+                </div>
+
+                <div>
+                    <strong>Dirección</strong>
+                    <span>
+                        @Model.Direccion
+                    </span>
+                </div>
+
+                <div>
+                    <strong>Localidad</strong>
+                    <span>
+                        @Model.Localidad
+                    </span>
+                </div>
+
+                <div>
+                    <strong>Código postal</strong>
+                    <span>
+                        @Model.CodigoPostal
+                    </span>
+                </div>
+
+                <div>
+                    <strong>Fecha del pedido</strong>
+                    <span>
+                        @Model.FechaPedido.ToString("dd/MM/yyyy HH:mm")
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="admin-detail-section">
+
+            <h2>Productos</h2>
+
+            <div class="admin-detail-products">
+
+                @foreach (var detalle in Model.Detalles)
+                {
+                    <div class="admin-detail-product">
+
+                        <div class="admin-detail-product-info">
+
+                            <strong>
+                                @detalle.NombreProducto
+                            </strong>
+
+                            <span>
+                                Cantidad: @detalle.Cantidad
+                            </span>
+
+                            <span>
+                                Precio unitario:
+                                $@detalle.Precio.ToString("N0")
+                            </span>
+
+                        </div>
+
+                        <strong class="admin-detail-subtotal">
+                            $@detalle.Subtotal.ToString("N0")
+                        </strong>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+        <div class="admin-detail-section">
+
+            <h2>Observaciones</h2>
+
+            @if (string.IsNullOrWhiteSpace(Model.Observaciones))
+            {
+                <p class="admin-no-observations">
+                    El cliente no dejó observaciones.
+                </p>
+            }
+            else
+            {
+                <p class="admin-observations">
+                    @Model.Observaciones
+                </p>
+            }
+
+        </div>
+
+        <div class="admin-detail-section">
+            <h2>Estado del pedido</h2>
+
+            <form asp-controller="AdminPedidos"
+                  asp-action="CambiarEstado"
+                  method="post"
+                  class="admin-status-form">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.IdPedido" />
+
+                <div class="admin-status-control">
+                    <select name="estado"
+                            class="admin-status-select">
+
+                        @{
+                            var estados = new[]
+                            {
+                                                "Pendiente",
+                                                "Pago confirmado",
+                                                "Preparando",
+                                                "Enviado",
+                                                "Entregado",
+                                                "Cancelado"
+                                                };
+                        }
+
+                        @foreach (var estado in estados)
+                        {
+                            if (Model.Estado == estado)
+                            {
+                                <option value="@estado" selected>
+                                    @estado
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@estado">
+                                    @estado
+                                </option>
+                            }
+                        }
+                    </select>
+
+                    <button type="submit"
+                            class="admin-status-button">
+                        GUARDAR ESTADO
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="admin-detail-total">
+
+            <span>
+                TOTAL DEL PEDIDO
+            </span>
+
+            <strong>
+                $@Model.Total.ToString("N0")
+            </strong>
+
+        </div>
+
+        <div class="admin-detail-actions">
+
+            <a asp-controller="AdminPedidos"
+               asp-action="Index"
+               class="admin-back-button">
+                ← VOLVER A PEDIDOS
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

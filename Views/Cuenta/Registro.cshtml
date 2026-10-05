@@ -1,0 +1,164 @@
+﻿@model ColatonDeMelon.Models.RegistroViewModel
+
+@{
+    ViewData["Title"] = "Crear cuenta";
+}
+
+<section class="account-page">
+
+    <div class="account-container">
+
+        <div class="account-header">
+            <div class="account-icon">
+                💕
+            </div>
+
+            <h1>Crear mi cuenta</h1>
+
+            <p>
+                Registrate en Colatón de Melón y disfrutá
+                de una experiencia más cómoda al comprar.
+            </p>
+        </div>
+
+        <form asp-controller="Cuenta"
+              asp-action="Registro"
+              method="post"
+              class="account-form">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary">
+            </div>
+
+            <!-- NOMBRE -->
+
+            <div class="form-group">
+
+                <label asp-for="Nombre">
+                    Nombre
+                </label>
+
+                <input asp-for="Nombre"
+                       class="form-control"
+                       placeholder="Ingresá tu nombre" />
+
+                <span asp-validation-for="Nombre"
+                      class="validation-message">
+                </span>
+
+            </div>
+
+            <!-- APELLIDO -->
+
+            <div class="form-group">
+
+                <label asp-for="Apellido">
+                    Apellido
+                </label>
+
+                <input asp-for="Apellido"
+                       class="form-control"
+                       placeholder="Ingresá tu apellido" />
+
+                <span asp-validation-for="Apellido"
+                      class="validation-message">
+                </span>
+
+            </div>
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label asp-for="Email">
+                    Correo electrónico
+                </label>
+
+                <input asp-for="Email"
+                       class="form-control"
+                       type="email"
+                       placeholder="ejemplo@email.com" />
+
+                <span asp-validation-for="Email"
+                      class="validation-message">
+                </span>
+
+            </div>
+
+            <!-- CONTRASEÑA -->
+
+            <div class="form-group">
+
+                <label asp-for="Password">
+                    Contraseña
+                </label>
+
+                <input asp-for="Password"
+                       class="form-control"
+                       type="password"
+                       placeholder="Mínimo 8 caracteres" />
+
+                <span asp-validation-for="Password"
+                      class="validation-message">
+                </span>
+
+                <small class="form-help">
+                    La contraseña debe tener al menos 8 caracteres,
+                    una mayúscula, una minúscula y un número.
+                </small>
+
+            </div>
+
+            <!-- CONFIRMAR CONTRASEÑA -->
+
+            <div class="form-group">
+
+                <label asp-for="ConfirmarPassword">
+                    Confirmar contraseña
+                </label>
+
+                <input asp-for="ConfirmarPassword"
+                       class="form-control"
+                       type="password"
+                       placeholder="Repetí tu contraseña" />
+
+                <span asp-validation-for="ConfirmarPassword"
+                      class="validation-message">
+                </span>
+
+            </div>
+
+            <!-- BOTÓN -->
+
+            <button type="submit"
+                    class="account-btn">
+                CREAR MI CUENTA 💕
+            </button>
+
+        </form>
+
+        <div class="account-footer">
+
+            <p>
+                ¿Ya tenés una cuenta?
+            </p>
+
+            <a asp-controller="Cuenta"
+               asp-action="Login"
+               class="account-link">
+                INICIAR SESIÓN
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

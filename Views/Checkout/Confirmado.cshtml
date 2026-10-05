@@ -1,0 +1,164 @@
+﻿@model ColatonDeMelon.Models.Pedido
+
+@{
+    ViewData["Title"] = "Pedido confirmado";
+
+    var mensajeWhatsApp =
+        $"Hola, soy {Model.Nombre} {Model.Apellido}. " +
+        $"Acabo de realizar el pedido #{Model.IdPedido} " +
+        $"en Colatón de Melón. " +
+        $"El total de mi pedido es ${Model.Total:N0}. " +
+        $"Quisiera consultar los medios de pago disponibles.";
+
+    var mensajeCodificado =
+        Uri.EscapeDataString(mensajeWhatsApp);
+
+    var whatsappUrl =
+        $"https://wa.me/5493704792224?text={mensajeCodificado}";
+}
+
+<section class="order-confirmed-page">
+
+    <div class="order-confirmed-container">
+
+        <!-- ENCABEZADO -->
+
+        <div class="order-confirmed-label">
+            COLATÓN DE MELÓN
+        </div>
+
+        <div class="order-confirmed-icon">
+            ✓
+        </div>
+
+        <h1>
+            ¡Pedido recibido!
+        </h1>
+
+        <p class="order-confirmed-message">
+            Gracias por comprar en Colatón de Melón.
+            Tu pedido fue registrado correctamente.
+        </p>
+
+
+        <!-- INFORMACIÓN DEL PEDIDO -->
+
+        <div class="order-confirmed-details">
+
+            <div class="order-detail">
+
+                <span>
+                    NÚMERO DE PEDIDO
+                </span>
+
+                <strong>
+                    #@Model.IdPedido
+                </strong>
+
+            </div>
+
+
+            <div class="order-detail">
+
+                <span>
+                    TOTAL DEL PEDIDO
+                </span>
+
+                <strong>
+                    $@Model.Total.ToString("N0")
+                </strong>
+
+            </div>
+
+
+            <div class="order-detail">
+
+                <span>
+                    ESTADO
+                </span>
+
+                <strong class="order-status">
+                    @Model.Estado
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMACIÓN DEL PAGO -->
+
+        <div class="payment-message">
+
+            <div class="payment-message-icon">
+                $
+            </div>
+
+            <div class="payment-message-content">
+
+                <span>
+                    PRÓXIMO PASO
+                </span>
+
+                <h2>
+                    Coordinemos el pago
+                </h2>
+
+                <p>
+                    Tu pedido ya fue registrado.
+                    No se realizó ningún cobro automático.
+                </p>
+
+                <p>
+                    Para consultar los medios de pago disponibles,
+                    comunicate con nosotros por WhatsApp.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACCIONES -->
+
+        <div class="order-actions">
+
+            <a href="@whatsappUrl"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="whatsapp-button">
+
+                CONSULTAR MEDIOS DE PAGO POR WHATSAPP
+
+            </a>
+
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="account-btn account-btn-link">
+
+                VOLVER AL INICIO
+
+            </a>
+
+
+            <a asp-controller="Productos"
+               asp-action="Index"
+               class="account-link">
+
+                SEGUIR COMPRANDO
+
+            </a>
+
+        </div>
+
+
+        <!-- MENSAJE FINAL -->
+
+        <p class="order-confirmed-footer-message">
+            Guardá tu número de pedido para cualquier consulta.
+        </p>
+
+    </div>
+
+</section>

@@ -1,0 +1,337 @@
+﻿@model List<ColatonDeMelon.Models.CarritoItem>
+
+@{
+    ViewData["Title"] = "Finalizar compra";
+
+    decimal total = Model.Sum(item => item.Subtotal);
+}
+
+<section class="checkout-page">
+
+    <div class="checkout-container">
+
+        <!-- ENCABEZADO -->
+
+        <div class="checkout-header">
+
+            <span>
+                COLATÓN DE MELÓN
+            </span>
+
+            <h1>
+                Finalizar compra
+            </h1>
+
+            <p>
+                Completá tus datos para preparar tu pedido.
+            </p>
+
+        </div>
+
+
+        <!-- CONTENIDO -->
+
+        <div class="checkout-content">
+
+            <!-- FORMULARIO -->
+
+            <div class="checkout-form-container">
+
+                <div class="checkout-section-heading">
+
+                    <span>
+                        DATOS DEL PEDIDO
+                    </span>
+
+                    <h2>
+                        Datos de entrega
+                    </h2>
+
+                    <p>
+                        Necesitamos estos datos para preparar y coordinar tu pedido.
+                    </p>
+
+                </div>
+
+
+                <form asp-controller="Checkout"
+                      asp-action="Confirmar"
+                      method="post"
+                      class="checkout-form">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="checkout-form-group">
+
+                        <label for="nombre">
+                            Nombre
+                        </label>
+
+                        <input type="text"
+                               id="nombre"
+                               name="nombre"
+                               placeholder="Ingresá tu nombre"
+                               autocomplete="given-name"
+                               required />
+
+                    </div>
+
+
+                    <!-- APELLIDO -->
+
+                    <div class="checkout-form-group">
+
+                        <label for="apellido">
+                            Apellido
+                        </label>
+
+                        <input type="text"
+                               id="apellido"
+                               name="apellido"
+                               placeholder="Ingresá tu apellido"
+                               autocomplete="family-name"
+                               required />
+
+                    </div>
+
+
+                    <!-- TELÉFONO -->
+
+                    <div class="checkout-form-group">
+
+                        <label for="telefono">
+                            Teléfono
+                        </label>
+
+                        <input type="tel"
+                               id="telefono"
+                               name="telefono"
+                               placeholder="Ingresá tu teléfono"
+                               autocomplete="tel"
+                               required />
+
+                    </div>
+
+
+                    <!-- DIRECCIÓN -->
+
+                    <div class="checkout-form-group">
+
+                        <label for="direccion">
+                            Dirección
+                        </label>
+
+                        <input type="text"
+                               id="direccion"
+                               name="direccion"
+                               placeholder="Calle y número"
+                               autocomplete="street-address"
+                               required />
+
+                    </div>
+
+
+                    <!-- LOCALIDAD Y CÓDIGO POSTAL -->
+
+                    <div class="checkout-form-row">
+
+                        <div class="checkout-form-group">
+
+                            <label for="localidad">
+                                Localidad
+                            </label>
+
+                            <input type="text"
+                                   id="localidad"
+                                   name="localidad"
+                                   placeholder="Ej: Formosa"
+                                   autocomplete="address-level2"
+                                   required />
+
+                        </div>
+
+
+                        <div class="checkout-form-group">
+
+                            <label for="codigoPostal">
+                                Código postal
+                            </label>
+
+                            <input type="text"
+                                   id="codigoPostal"
+                                   name="codigoPostal"
+                                   placeholder="Código postal"
+                                   autocomplete="postal-code"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OBSERVACIONES -->
+
+                    <div class="checkout-form-group">
+
+                        <label for="observaciones">
+                            Observaciones
+                        </label>
+
+                        <textarea id="observaciones"
+                                  name="observaciones"
+                                  rows="4"
+                                  placeholder="Alguna indicación para tu pedido..."></textarea>
+
+                        <small>
+                            Este campo es opcional.
+                        </small>
+
+                    </div>
+
+
+                    <!-- INFORMACIÓN DE PAGO -->
+
+                    <div class="checkout-payment-notice">
+
+                        <div class="checkout-payment-notice-icon">
+                            $
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                El pago se coordina después
+                            </strong>
+
+                            <p>
+                                Al confirmar tu pedido no se realizará ningún cobro automático.
+                                Luego podrás comunicarte con nosotros por WhatsApp para consultar
+                                los medios de pago disponibles.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOTÓN -->
+
+                    <button type="submit"
+                            class="checkout-confirm-button">
+
+                        CONFIRMAR PEDIDO
+
+                    </button>
+
+
+                    <a asp-controller="Carrito"
+                       asp-action="Index"
+                       class="checkout-back">
+
+                        ← Volver al carrito
+
+                    </a>
+
+                </form>
+
+            </div>
+
+
+            <!-- RESUMEN -->
+
+            <aside class="checkout-summary">
+
+                <span class="checkout-summary-label">
+                    TU PEDIDO
+                </span>
+
+                <h2>
+                    Resumen de compra
+                </h2>
+
+
+                <div class="checkout-products">
+
+                    @foreach (var item in Model)
+                    {
+                        <article class="checkout-product">
+
+                            <div class="checkout-product-image">
+
+                                @if (!string.IsNullOrWhiteSpace(item.Imagen))
+                                {
+                                    <img src="~/images/productos/@item.Imagen"
+                                         alt="@item.Nombre" />
+                                }
+                                else
+                                {
+                                    <div class="checkout-no-image">
+                                        SIN IMAGEN
+                                    </div>
+                                }
+
+                            </div>
+
+
+                            <div class="checkout-product-info">
+
+                                <h3>
+                                    @item.Nombre
+                                </h3>
+
+                                <span>
+                                    Cantidad: @item.Cantidad
+                                </span>
+
+                                <strong>
+                                    $@item.Subtotal.ToString("N0")
+                                </strong>
+
+                            </div>
+
+                        </article>
+                    }
+
+                </div>
+
+
+                <!-- TOTAL -->
+
+                <div class="checkout-summary-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong>
+                        $@total.ToString("N0")
+                    </strong>
+
+                </div>
+
+
+                <!-- PAGO -->
+
+                <div class="checkout-payment-info">
+
+                    <strong>
+                        Sin cobro automático
+                    </strong>
+
+                    <p>
+                        Primero confirmás el pedido. Después nos contactás por WhatsApp
+                        para consultar los medios de pago disponibles.
+                    </p>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</section>

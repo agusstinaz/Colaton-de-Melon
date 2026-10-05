@@ -1,0 +1,427 @@
+﻿@model IEnumerable<ColatonDeMelon.Models.Producto>
+
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+
+<section class="home-hero">
+
+    <div class="home-hero-content">
+
+        <span class="home-hero-small">
+            COLATÓN DE MELÓN
+        </span>
+
+        <h1>
+            Ropita linda<br />
+            para momentos especiales
+        </h1>
+
+        <p>
+            Descubrí nuestra colección de ropa infantil
+            pensada para acompañar cada etapa.
+        </p>
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           class="home-hero-button">
+            VER COLECCIÓN
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     COMPRAR POR EDAD
+     ===================================================== -->
+
+<section class="home-category-section">
+
+    <div class="home-section-header">
+
+        <span>
+            ENCONTRÁ LO QUE BUSCÁS
+        </span>
+
+        <h2>
+            Comprar por edad
+        </h2>
+
+        <p>
+            Elegí la etapa y descubrí prendas pensadas para cada edad.
+        </p>
+
+    </div>
+
+
+    <div class="home-age-grid">
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-edad="1"
+           class="home-age-card">
+
+            <div class="home-age-card-image age-newborn">
+                <span>RECIÉN NACIDOS</span>
+            </div>
+
+            <div class="home-age-card-content">
+                <h3>Recién Nacidos</h3>
+                <span>VER PRENDAS</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-edad="2"
+           class="home-age-card">
+
+            <div class="home-age-card-image age-babies">
+                <span>BEBÉS</span>
+            </div>
+
+            <div class="home-age-card-content">
+                <h3>Bebés</h3>
+                <span>VER PRENDAS</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-edad="3"
+           class="home-age-card">
+
+            <div class="home-age-card-image age-preschool">
+                <span>PREESCOLAR</span>
+            </div>
+
+            <div class="home-age-card-content">
+                <h3>Edad Preescolar</h3>
+                <span>VER PRENDAS</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-edad="4"
+           class="home-age-card">
+
+            <div class="home-age-card-image age-school">
+                <span>ESCOLAR</span>
+            </div>
+
+            <div class="home-age-card-content">
+                <h3>Edad Escolar</h3>
+                <span>VER PRENDAS</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     COMPRAR POR TIPO DE ROPA
+     ===================================================== -->
+
+<section class="home-category-section home-type-section">
+
+    <div class="home-section-header">
+
+        <span>
+            NUESTRA COLECCIÓN
+        </span>
+
+        <h2>
+            Comprar por tipo de ropa
+        </h2>
+
+        <p>
+            Encontrá tu prenda favorita de una manera simple.
+        </p>
+
+    </div>
+
+
+    <div class="home-type-grid">
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-tipo="1"
+           class="home-type-card">
+
+            <div class="home-type-card-image type-dresses">
+                <span>VESTIDOS</span>
+            </div>
+
+            <div class="home-type-card-content">
+                <h3>Vestidos</h3>
+                <span>VER COLECCIÓN</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-tipo="2"
+           class="home-type-card">
+
+            <div class="home-type-card-image type-bodies">
+                <span>BODIES</span>
+            </div>
+
+            <div class="home-type-card-content">
+                <h3>Bodies</h3>
+                <span>VER COLECCIÓN</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-tipo="3"
+           class="home-type-card">
+
+            <div class="home-type-card-image type-shirts">
+                <span>REMERAS</span>
+            </div>
+
+            <div class="home-type-card-content">
+                <h3>Remeras</h3>
+                <span>VER COLECCIÓN</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-tipo="4"
+           class="home-type-card">
+
+            <div class="home-type-card-image type-sets">
+                <span>CONJUNTOS</span>
+            </div>
+
+            <div class="home-type-card-content">
+                <h3>Conjuntos</h3>
+                <span>VER COLECCIÓN</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           asp-route-tipo="5"
+           class="home-type-card">
+
+            <div class="home-type-card-image type-accessories">
+                <span>ACCESORIOS</span>
+            </div>
+
+            <div class="home-type-card-content">
+                <h3>Accesorios</h3>
+                <span>VER COLECCIÓN</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PRODUCTOS DESTACADOS
+     ===================================================== -->
+
+<section class="home-featured-section">
+
+    <div class="home-section-header">
+
+        <span>
+            COLATÓN DE MELÓN
+        </span>
+
+        <h2>
+            Productos destacados
+        </h2>
+
+        <p>
+            Algunas de nuestras prendas favoritas.
+        </p>
+
+    </div>
+
+
+    <div class="home-featured-grid">
+
+        @foreach (var producto in Model.Take(8))
+        {
+            <article class="home-product-card">
+
+                <a asp-controller="Productos"
+                   asp-action="Details"
+                   asp-route-id="@producto.IdProducto"
+                   class="home-product-image">
+
+                    @if (!string.IsNullOrEmpty(producto.Imagen))
+                    {
+                        <img src="~/images/productos/@producto.Imagen"
+                             alt="@producto.Nombre" />
+                    }
+                    else
+                    {
+                        <div class="home-product-no-image">
+                            SIN IMAGEN
+                        </div>
+                    }
+
+                </a>
+
+
+                <div class="home-product-info">
+
+                    @if (producto.TipoPrenda != null)
+                    {
+                        <span class="home-product-type">
+                            @producto.TipoPrenda.Nombre
+                        </span>
+                    }
+
+                    <h3>
+                        @producto.Nombre
+                    </h3>
+
+                    <p>
+                        $@producto.Precio.ToString("N0")
+                    </p>
+
+                </div>
+
+            </article>
+        }
+
+    </div>
+
+
+    <div class="home-featured-button-container">
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           class="home-featured-button">
+            VER TODOS LOS PRODUCTOS
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PRESENTACIÓN
+     ===================================================== -->
+
+<section class="home-about">
+
+    <div class="home-about-content">
+
+        <span>
+            SOBRE NOSOTROS
+        </span>
+
+        <h2>
+            Pequeños detalles,<br />
+            grandes momentos.
+        </h2>
+
+        <p>
+            En Colatón de Melón buscamos ofrecer ropa infantil
+            linda, cómoda y especial para acompañar a los más
+            pequeños en cada momento.
+        </p>
+
+        <a asp-controller="Contacto"
+           asp-action="Index">
+            CONOCÉ MÁS
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BENEFICIOS
+     ===================================================== -->
+
+<section class="home-benefits">
+
+    <div class="home-benefit">
+
+        <span class="home-benefit-icon">
+            ◇
+        </span>
+
+        <h3>
+            Atención personalizada
+        </h3>
+
+        <p>
+            Estamos para ayudarte a elegir lo que necesitás.
+        </p>
+
+    </div>
+
+
+    <div class="home-benefit">
+
+        <span class="home-benefit-icon">
+            ♡
+        </span>
+
+        <h3>
+            Elegido con amor
+        </h3>
+
+        <p>
+            Prendas seleccionadas pensando en los más pequeños.
+        </p>
+
+    </div>
+
+
+    <div class="home-benefit">
+
+        <span class="home-benefit-icon">
+            ○
+        </span>
+
+        <h3>
+            Comprá online
+        </h3>
+
+        <p>
+            Elegí tus productos y realizá tu pedido fácilmente.
+        </p>
+
+    </div>
+
+</section>

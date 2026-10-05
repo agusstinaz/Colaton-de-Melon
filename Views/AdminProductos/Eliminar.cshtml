@@ -1,0 +1,108 @@
+﻿@model ColatonDeMelon.Models.Producto
+
+@{
+    ViewData["Title"] = "Eliminar producto";
+}
+
+<section class="admin-delete-page">
+
+    ```
+    <div class="admin-delete-card">
+
+        <span class="admin-delete-label">
+            ADMINISTRACIÓN
+        </span>
+
+        <h1>
+            Eliminar producto
+        </h1>
+
+        <p class="admin-delete-warning">
+            ¿Estás segura de que querés eliminar este producto?
+        </p>
+
+
+        <div class="admin-delete-product">
+
+            @if (!string.IsNullOrWhiteSpace(Model.Imagen))
+            {
+                <div class="admin-delete-image">
+
+                    <img src="~/images/productos/@Model.Imagen"
+                         alt="@Model.Nombre" />
+
+                </div>
+            }
+
+            <div class="admin-delete-info">
+
+                <h2>
+                    @Model.Nombre
+                </h2>
+
+                @if (Model.TipoPrenda != null)
+                {
+                    <span>
+                        @Model.TipoPrenda.Nombre
+                    </span>
+                }
+
+                @if (Model.Edad != null)
+                {
+                    <small>
+                        @Model.Edad.Nombre
+                    </small>
+                }
+
+                <strong>
+                    $@Model.Precio.ToString("N0")
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-delete-notice">
+
+            <p>
+                Esta acción eliminará el producto de la tienda.
+            </p>
+
+            <p>
+                También se eliminará la imagen asociada.
+            </p>
+
+        </div>
+
+
+        <form asp-action="EliminarConfirmado"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="id"
+                   value="@Model.IdProducto" />
+
+
+            <div class="admin-form-actions">
+
+                <button type="submit"
+                        class="admin-form-button danger">
+                    SÍ, ELIMINAR PRODUCTO
+                </button>
+
+                <a asp-action="Index"
+                   class="admin-form-button secondary">
+                    CANCELAR
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+    ```
+
+</section>

@@ -1,0 +1,158 @@
+﻿@model IEnumerable<ColatonDeMelon.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Mis pedidos";
+}
+
+<section class="my-orders-page">
+
+    <div class="my-orders-container">
+
+        <!-- ENCABEZADO -->
+
+        <div class="my-orders-header">
+
+            <span>
+                COLATÓN DE MELÓN
+            </span>
+
+            <h1>
+                Mis pedidos
+            </h1>
+
+            <p>
+                Acá podés consultar tus pedidos realizados.
+            </p>
+
+        </div>
+
+
+        @if (Model.Any())
+        {
+            <!-- LISTA DE PEDIDOS -->
+
+            <div class="my-orders-list">
+
+                @foreach (var pedido in Model)
+                {
+                    <article class="my-order-card">
+
+                        <div class="my-order-main">
+
+                            <div class="my-order-number">
+
+                                <span>
+                                    PEDIDO
+                                </span>
+
+                                <strong>
+                                    #@pedido.IdPedido
+                                </strong>
+
+                            </div>
+
+
+                            <div class="my-order-date">
+
+                                <span>
+                                    FECHA
+                                </span>
+
+                                <strong>
+                                    @pedido.FechaPedido.ToString("dd/MM/yyyy")
+                                </strong>
+
+                            </div>
+
+
+                            <div class="my-order-status">
+
+                                <span>
+                                    ESTADO
+                                </span>
+
+                                <strong>
+                                    @pedido.Estado
+                                </strong>
+
+                            </div>
+
+
+                            <div class="my-order-total">
+
+                                <span>
+                                    TOTAL
+                                </span>
+
+                                <strong>
+                                    $@pedido.Total.ToString("N0")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="my-order-action">
+
+                            <a asp-controller="MisPedidos"
+                               asp-action="Details"
+                               asp-route-id="@pedido.IdPedido"
+                               class="my-order-button">
+
+                                VER PEDIDO
+
+                            </a>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+        else
+        {
+            <!-- SIN PEDIDOS -->
+
+            <div class="my-orders-empty">
+
+                <span>
+                    TODAVÍA NO HAY PEDIDOS
+                </span>
+
+                <h2>
+                    Aún no realizaste ninguna compra.
+                </h2>
+
+                <p>
+                    Cuando realices un pedido, podrás verlo desde acá.
+                </p>
+
+                <a asp-controller="Productos"
+                   asp-action="Index">
+
+                    VER PRODUCTOS
+
+                </a>
+
+            </div>
+        }
+
+
+        <!-- VOLVER -->
+
+        <div class="my-orders-back">
+
+            <a asp-controller="Home"
+               asp-action="Index">
+
+                ← VOLVER AL INICIO
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

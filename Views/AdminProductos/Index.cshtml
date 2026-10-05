@@ -1,0 +1,184 @@
+﻿@model IEnumerable<ColatonDeMelon.Models.Producto>
+
+@{
+    ViewData["Title"] = "Administrar productos";
+}
+
+<section class="admin-products">
+
+    <div class="admin-header">
+
+        <div>
+            <h1>Administrar productos</h1>
+            <p>Gestioná los productos de Colatón de Melón.</p>
+        </div>
+
+        <a asp-controller="AdminProductos"
+           asp-action="Crear"
+           class="admin-btn admin-btn-primary">
+            + AGREGAR PRODUCTO
+        </a>
+
+    </div>
+
+
+    <div class="admin-table-container">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Producto</th>
+                    <th>Edad</th>
+                    <th>Tipo de ropa</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var producto in Model)
+                {
+                    <tr>
+
+                        <!-- IMAGEN -->
+                        <td>
+                            @if (!string.IsNullOrEmpty(producto.Imagen))
+                            {
+                                <img src="~/images/productos/@producto.Imagen"
+                                     alt="@producto.Nombre"
+                                     class="admin-product-image" />
+                            }
+                            else
+                            {
+                                <span>Sin imagen</span>
+                            }
+                        </td>
+
+
+                        <!-- PRODUCTO -->
+                        <td>
+                            <strong>@producto.Nombre</strong>
+
+                            @if (!string.IsNullOrWhiteSpace(producto.Descripcion))
+                            {
+                                <small class="admin-product-description">
+                                    @producto.Descripcion
+                                </small>
+                            }
+                        </td>
+
+
+                        <!-- EDAD -->
+                        <td>
+                            @if (producto.Edad != null)
+                            {
+                                <span class="admin-category-badge">
+                                    @producto.Edad.Nombre
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="admin-category-empty">
+                                    Sin asignar
+                                </span>
+                            }
+                        </td>
+
+
+                        <!-- TIPO DE ROPA -->
+                        <td>
+                            @if (producto.TipoPrenda != null)
+                            {
+                                <span class="admin-category-badge">
+                                    @producto.TipoPrenda.Nombre
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="admin-category-empty">
+                                    Sin asignar
+                                </span>
+                            }
+                        </td>
+
+
+                        <!-- PRECIO -->
+                        <td>
+                            $@producto.Precio.ToString("N0")
+                        </td>
+
+
+                        <!-- STOCK -->
+                        <td>
+                            @if (producto.Stock > 0)
+                            {
+                                <span class="stock-ok">
+                                    @producto.Stock
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="stock-none">
+                                    Sin stock
+                                </span>
+                            }
+                        </td>
+
+
+                        <!-- ACCIONES -->
+                        <td>
+
+                            <div class="admin-actions">
+
+                                <a asp-controller="AdminProductos"
+                                   asp-action="Editar"
+                                   asp-route-id="@producto.IdProducto"
+                                   class="admin-btn admin-btn-edit">
+                                    EDITAR
+                                </a>
+
+                                <a asp-controller="AdminProductos"
+                                   asp-action="Eliminar"
+                                   asp-route-id="@producto.IdProducto"
+                                   class="admin-btn admin-btn-delete">
+                                    ELIMINAR
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    @if (!Model.Any())
+    {
+        <div class="admin-empty">
+
+            <h2>No hay productos todavía.</h2>
+
+            <p>
+                Cuando agregues productos, aparecerán en esta sección.
+            </p>
+
+            <a asp-controller="AdminProductos"
+               asp-action="Crear"
+               class="admin-btn admin-btn-primary">
+                + AGREGAR PRODUCTO
+            </a>
+
+        </div>
+    }
+
+</section>

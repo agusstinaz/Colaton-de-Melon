@@ -1,0 +1,257 @@
+﻿@model ColatonDeMelon.Models.Pedido
+
+@{
+    ViewData["Title"] = $"Pedido #{Model.IdPedido}";
+}
+
+<section class="account-order-detail-page">
+
+   
+    <div class="account-order-detail-container">
+
+        <!-- ENCABEZADO -->
+
+        <div class="account-order-detail-header">
+
+            <div>
+                <span class="account-order-detail-label">
+                    Número de pedido
+                </span>
+
+                <h1>
+                    #@Model.IdPedido
+                </h1>
+            </div>
+
+            <span class="account-order-detail-status
+            @(Model.Estado == "Pendiente" ? "status-pendiente" :
+                                Model.Estado == "Pago confirmado" ? "status-pago" :
+                                Model.Estado == "Preparando" ? "status-preparando" :
+                                Model.Estado == "Enviado" ? "status-enviado" :
+                                Model.Estado == "Entregado" ? "status-entregado" :
+                                Model.Estado == "Cancelado" ? "status-cancelado" :
+                                "")">
+
+                @Model.Estado
+
+            </span>
+
+        </div>
+
+
+        <!-- INFORMACIÓN DEL PEDIDO -->
+
+        <div class="account-detail-section">
+
+            <h2>Información del pedido</h2>
+
+            <div class="account-detail-grid">
+
+                <div>
+                    <span>Fecha del pedido</span>
+
+                    <strong>
+                        @Model.FechaPedido.ToString(
+                                                "dd/MM/yyyy HH:mm")
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Número de pedido</span>
+
+                    <strong>
+                        #@Model.IdPedido
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Estado</span>
+
+                    <strong>
+                        @Model.Estado
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DATOS DE ENTREGA -->
+
+        <div class="account-detail-section">
+
+            <h2>Datos de entrega 📍</h2>
+
+            <div class="account-detail-grid">
+
+                <div>
+                    <span>Nombre</span>
+
+                    <strong>
+                        @Model.Nombre @Model.Apellido
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Teléfono</span>
+
+                    <strong>
+                        @Model.Telefono
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Dirección</span>
+
+                    <strong>
+                        @Model.Direccion
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Localidad</span>
+
+                    <strong>
+                        @Model.Localidad
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Código postal</span>
+
+                    <strong>
+                        @Model.CodigoPostal
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCTOS -->
+
+        <div class="account-detail-section">
+
+            <h2>Productos 🛍️</h2>
+
+            <div class="account-detail-products">
+
+                @foreach (var detalle in Model.Detalles)
+                {
+                    <div class="account-detail-product">
+
+                        <div class="account-detail-product-info">
+
+                            <strong>
+                                @detalle.NombreProducto
+                            </strong>
+
+                            <span>
+                                Cantidad: @detalle.Cantidad
+                            </span>
+
+                            <span>
+                                Precio unitario:
+                                $@detalle.Precio.ToString("N0")
+                            </span>
+
+                        </div>
+
+                        <strong class="account-detail-product-subtotal">
+                            $@detalle.Subtotal.ToString("N0")
+                        </strong>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- OBSERVACIONES -->
+
+        <div class="account-detail-section">
+
+            <h2>Observaciones 📝</h2>
+
+            @if (string.IsNullOrWhiteSpace(Model.Observaciones))
+            {
+                <p class="account-detail-empty">
+                    No dejaste observaciones para este pedido.
+                </p>
+            }
+            else
+            {
+                <p class="account-detail-observations">
+                    @Model.Observaciones
+                </p>
+            }
+
+        </div>
+
+
+        <!-- TOTAL -->
+
+        <div class="account-detail-total">
+
+            <span>
+                TOTAL DEL PEDIDO
+            </span>
+
+            <strong>
+                $@Model.Total.ToString("N0")
+            </strong>
+
+        </div>
+
+
+        <!-- INFORMACIÓN DEL PAGO -->
+
+        <div class="account-detail-payment">
+
+            <div class="account-detail-payment-icon">
+                📱
+            </div>
+
+            <div>
+                <h3>¿Necesitás consultar el pago?</h3>
+
+                <p>
+                    Para consultar los medios de pago disponibles,
+                    podés comunicarte con Colatón de Melón por WhatsApp.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- BOTONES -->
+
+        <div class="account-detail-actions">
+
+            <a asp-controller="Cuenta"
+               asp-action="MiCuenta"
+               class="account-detail-back">
+
+                ← VOLVER A MI CUENTA
+
+            </a>
+
+            <a href="https://wa.me/5493704792224"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="account-detail-whatsapp">
+
+                💬 CONSULTAR POR WHATSAPP
+
+            </a>
+
+        </div>
+
+    </div>
+  
+
+</section>

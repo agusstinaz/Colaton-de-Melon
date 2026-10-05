@@ -1,0 +1,235 @@
+﻿@model ColatonDeMelon.Models.Pedido
+
+@{
+    ViewData["Title"] = $"Pedido #{Model.IdPedido}";
+}
+
+<section class="my-order-detail-page">
+
+    <div class="my-order-detail-container">
+
+        <!-- ENCABEZADO -->
+
+        <div class="my-order-detail-header">
+
+            <span>
+                COLATÓN DE MELÓN
+            </span>
+
+            <h1>
+                Pedido #@Model.IdPedido
+            </h1>
+
+            <p>
+                Detalle de tu pedido realizado el
+                @Model.FechaPedido.ToString("dd/MM/yyyy")
+            </p>
+
+        </div>
+
+
+        <!-- ESTADO -->
+
+        <div class="my-order-detail-status">
+
+            <span>
+                ESTADO DEL PEDIDO
+            </span>
+
+            <strong>
+                @Model.Estado
+            </strong>
+
+        </div>
+
+
+        <!-- PRODUCTOS -->
+
+        <div class="my-order-detail-section">
+
+            <div class="my-order-detail-section-header">
+
+                <span>
+                    TU COMPRA
+                </span>
+
+                <h2>
+                    Productos del pedido
+                </h2>
+
+            </div>
+
+
+            <div class="my-order-detail-products">
+
+                @foreach (var detalle in Model.Detalles)
+                {
+                    <article class="my-order-detail-product">
+
+                        <div class="my-order-detail-product-info">
+
+                            <h3>
+                                @detalle.NombreProducto
+                            </h3>
+
+                            <span>
+                                Cantidad: @detalle.Cantidad
+                            </span>
+
+                        </div>
+
+                        <div class="my-order-detail-product-price">
+
+                            <span>
+                                $@detalle.Precio.ToString("N0") c/u
+                            </span>
+
+                            <strong>
+                                $@detalle.Subtotal.ToString("N0")
+                            </strong>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="my-order-detail-total">
+
+                <span>
+                    TOTAL DEL PEDIDO
+                </span>
+
+                <strong>
+                    $@Model.Total.ToString("N0")
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- DATOS DE ENTREGA -->
+
+        <div class="my-order-detail-section">
+
+            <div class="my-order-detail-section-header">
+
+                <span>
+                    INFORMACIÓN
+                </span>
+
+                <h2>
+                    Datos de entrega
+                </h2>
+
+            </div>
+
+
+            <div class="my-order-delivery-grid">
+
+                <div>
+                    <span>
+                        NOMBRE
+                    </span>
+
+                    <strong>
+                        @Model.Nombre @Model.Apellido
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>
+                        TELÉFONO
+                    </span>
+
+                    <strong>
+                        @Model.Telefono
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>
+                        DIRECCIÓN
+                    </span>
+
+                    <strong>
+                        @Model.Direccion
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>
+                        LOCALIDAD
+                    </span>
+
+                    <strong>
+                        @Model.Localidad
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>
+                        CÓDIGO POSTAL
+                    </span>
+
+                    <strong>
+                        @Model.CodigoPostal
+                    </strong>
+                </div>
+
+            </div>
+
+
+            @if (!string.IsNullOrWhiteSpace(Model.Observaciones))
+            {
+                <div class="my-order-observations">
+
+                    <span>
+                        OBSERVACIONES
+                    </span>
+
+                    <p>
+                        @Model.Observaciones
+                    </p>
+
+                </div>
+            }
+
+        </div>
+
+
+        <!-- ACCIONES -->
+
+        <div class="my-order-detail-actions">
+
+            <a asp-controller="MisPedidos"
+               asp-action="Index"
+               class="my-order-detail-secondary">
+
+                ← VOLVER A MIS PEDIDOS
+
+            </a>
+
+
+            <a asp-controller="Productos"
+               asp-action="Index"
+               class="my-order-detail-primary">
+
+                SEGUIR COMPRANDO
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

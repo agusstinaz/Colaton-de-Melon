@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        @ViewData["Title"] - Colatón de Melón
+    </title>
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+</head>
+
+<body>
+
+    <!-- =========================================
+         ENCABEZADO
+         ========================================= -->
+
+    <header class="store-header">
+
+        <div class="store-header-top">
+
+            <div class="store-header-container">
+
+                <!-- LOGO -->
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="store-logo">
+
+                    <img src="~/images/logo.png"
+                         alt="Colatón de Melón" />
+
+                </a>
+
+
+                <!-- BUSCADOR -->
+
+                <form asp-controller="Productos"
+                      asp-action="Index"
+                      method="get"
+                      class="header-search">
+
+                    <input type="text"
+                           name="busqueda"
+                           placeholder="¿Qué estás buscando?"
+                           autocomplete="off" />
+
+                    <button type="submit"
+                            aria-label="Buscar">
+
+                        <span class="search-icon">⌕</span>
+
+                    </button>
+
+                </form>
+
+
+                <!-- ACCIONES -->
+
+                <div class="header-actions">
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Cuenta"
+                           asp-action="MiCuenta"
+                           class="header-action">
+
+                            <span class="header-action-icon">
+                                ♡
+                            </span>
+
+                            <span class="header-action-text">
+                                MI CUENTA
+                            </span>
+
+                        </a>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="AdminProductos"
+                               asp-action="Index"
+                               class="header-action admin-action">
+
+                                <span class="header-action-icon">
+                                    ⚙
+                                </span>
+
+                                <span class="header-action-text">
+                                    ADMIN
+                                </span>
+
+                            </a>
+
+                            <a asp-controller="AdminPedidos"
+                               asp-action="Index"
+                               class="header-action admin-action">
+
+                                <span class="header-action-icon">
+                                    ≡
+                                </span>
+
+                                <span class="header-action-text">
+                                    PEDIDOS
+                                </span>
+
+                            </a>
+                        }
+
+                        <form asp-controller="Cuenta"
+                              asp-action="Logout"
+                              method="post"
+                              class="header-logout-form">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="header-action header-logout">
+
+                                <span class="header-action-icon">
+                                    ×
+                                </span>
+
+                                <span class="header-action-text">
+                                    SALIR
+                                </span>
+
+                            </button>
+
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Cuenta"
+                           asp-action="Login"
+                           class="header-action">
+
+                            <span class="header-action-icon">
+                                ♡
+                            </span>
+
+                            <span class="header-action-text">
+                                INGRESAR
+                            </span>
+
+                        </a>
+
+                        <a asp-controller="Cuenta"
+                           asp-action="Registro"
+                           class="header-action">
+
+                            <span class="header-action-text">
+                                CREAR CUENTA
+                            </span>
+
+                        </a>
+                    }
+
+
+                    <!-- CARRITO -->
+
+                    <a asp-controller="Carrito"
+                       asp-action="Index"
+                       class="header-cart">
+
+                        <span class="header-cart-icon">
+                            🛒
+                        </span>
+
+                        <span class="header-cart-text">
+                            CARRITO
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             MENÚ PRINCIPAL
+             ========================================= -->
+
+        <div class="store-navigation">
+
+            <nav class="store-nav">
+
+                <a asp-controller="Home"
+                   asp-action="Index">
+                    INICIO
+                </a>
+
+                <a asp-controller="Productos"
+                   asp-action="Index">
+                    PRODUCTOS
+                </a>
+
+                <a asp-controller="Productos"
+                   asp-action="Index"
+                   asp-route-categoria="1">
+                    RECIÉN NACIDOS
+                </a>
+
+                <a asp-controller="Productos"
+                   asp-action="Index"
+                   asp-route-categoria="2">
+                    BEBÉS
+                </a>
+
+                <a asp-controller="Productos"
+                   asp-action="Index"
+                   asp-route-categoria="3">
+                    NIÑOS
+                </a>
+
+                <a asp-controller="Productos"
+                   asp-action="Index"
+                   asp-route-categoria="5">
+                    VESTIDOS
+                </a>
+
+                <a asp-controller="Contacto"
+                   asp-action="Index">
+                    CONTACTO
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         CONTENIDO
+         ========================================= -->
+
+    <main>
+        @RenderBody()
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+         ========================================= -->
+
+    <footer class="store-footer">
+
+        <div class="store-footer-container">
+
+            <!-- MARCA -->
+
+            <div class="footer-brand">
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="footer-logo">
+                    <img src="~/images/logo-footer.png"
+                         alt="Colatón de Melón" />
+                </a>
+
+                <p>
+                    Ropa infantil seleccionada con amor
+                    para acompañar cada etapa.
+                </p>
+
+                <a asp-controller="Contacto"
+                   asp-action="Index"
+                   class="footer-contact-link">
+                    CONOCÉ MÁS SOBRE NOSOTROS
+                </a>
+
+            </div>
+
+
+            <!-- TIENDA -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Tienda
+                </h3>
+
+                <a asp-controller="Home"
+                   asp-action="Index">
+                    Inicio
+                </a>
+
+                <a asp-controller="Productos"
+                   asp-action="Index">
+                    Todos los productos
+                </a>
+
+                <a asp-controller="Contacto"
+                   asp-action="Index">
+                    Contacto
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- REDES Y PIE -->
+
+        <div class="store-footer-bottom">
+
+            <div class="footer-social">
+
+                <span>
+                    SEGUINOS
+                </span>
+
+                <a href="https://www.instagram.com/colatondemelon/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Instagram
+                </a>
+
+                <a href="https://www.facebook.com/colatondemelonn?locale=es_LA"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Facebook
+                </a>
+
+                <a href="https://wa.me/5493704792224"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    WhatsApp
+                </a>
+
+            </div>
+
+            <p>
+                © @DateTime.Now.Year Colatón de Melón.
+                Todos los derechos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <script src="~/js/site.js"
+            asp-append-version="true">
+    </script>
+
+    @await RenderSectionAsync(
+    "Scripts",
+        required: false)
+
+</body>
+</html>
